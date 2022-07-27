@@ -1,0 +1,32 @@
+QTabBar::tab {
+    border: 2px solid rgb(57, 219, 255);
+    border-bottom-color: #C2C7CB;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    min-width: 80ex;
+    padding: 2px;	
+}
+ 
+QTabBar::tab:selected, QTabBar::tab:hover {
+    background: #FFFFFF;
+}
+ 
+QTabBar::tab:selected {
+    border-bottom-color: #FFFFFF;
+}
+ 
+QTabBar::tab:!selected {
+    margin-top: 2px;
+}
+QTabWidget::pane {
+	background-color: rgb(228, 249, 255);
+}
+QPlainTextEdit {
+	background-color: rgb(228, 249, 255);
+}
+#lineEdit_2 {
+	border-radius: 10px;
+}
+#lineEdit_2:hover {
+	border-radius: 15px;
+}
