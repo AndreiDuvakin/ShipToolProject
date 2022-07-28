@@ -94,15 +94,14 @@ class HumansWindow(QMainWindow):
             name, surname, patronymic = self.lineEdit_2.text().strip(), None, None
         else:
             name, surname, patronymic = None, None, None
-        if self.check_data():
-            cursor.execute(f'UPDATE humans SET name = ?, surname = ?, patronymic = ?, photo = ?,'
-                           f' dating_history = ?, general_info = ?, date_of_birth = ?, edit_date = ?'
-                           f' WHERE id = {str(self.dict_but[self.select_button][0])}', (
-                               name if name else None, surname if surname else None,
-                               patronymic if patronymic else None,
-                               self.photo if self.photo else None, self.textEdit_2.toPlainText(),
-                               self.textEdit.toPlainText(), str(self.dateEdit.date().toString('yyyy-M-d')),
-                               str(datetime.date.today())))
+        cursor.execute(f'UPDATE humans SET name = ?, surname = ?, patronymic = ?, photo = ?,'
+                       f' dating_history = ?, general_info = ?, date_of_birth = ?, edit_date = ?'
+                       f' WHERE id = {str(self.dict_but[self.select_button][0])}', (
+                           name if name else None, surname if surname else None,
+                           patronymic if patronymic else None,
+                           self.photo if self.photo else None, self.textEdit_2.toPlainText(),
+                           self.textEdit.toPlainText(), str(self.dateEdit.date().toString('yyyy-M-d')),
+                           str(datetime.date.today())))
         connect.commit()
         self.pushButton.setVisible(True)
         self.pushButton_4.setVisible(False)
@@ -121,15 +120,6 @@ class HumansWindow(QMainWindow):
             self.load_window()
         except AttributeError:
             pass
-
-    def check_data(self):
-        try:
-            name_data = self.lineEdit_2.text().split()
-            if len(name_data) != 2 and len(name_data) != 3:
-                raise Exception(f'Неправильный формат ФИО')
-            return True
-        except Exception as e:
-            self.statusbar.showMessage(str(e), 3000)
 
     def delete(self):
         global cursor

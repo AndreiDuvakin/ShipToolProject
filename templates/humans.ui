@@ -212,7 +212,7 @@ QStatusBar {
 #pushButton_5 {
 	border-radius: 5px;
 	background-color: rgb(57, 219, 255);
-	font: 87 14pt &quot;Arial Black&quot;;
+	font: 87 12pt &quot;Arial Black&quot;;
 	color: rgb(255, 255, 255);
 }
 #pushButton_5:hover {
