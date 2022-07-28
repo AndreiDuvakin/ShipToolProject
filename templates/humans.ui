@@ -30,7 +30,22 @@
     <normaloff>../app_image/humans.png</normaloff>../app_image/humans.png</iconset>
   </property>
   <property name="styleSheet">
-   <string notr="true">QMainWindow {
+   <string notr="true">QPushButton {
+	background-color: rgb(51, 177, 255);
+	border-radius: 17px;
+	font: 10pt &quot;Arial&quot;;
+	color: rgb(255, 255, 255);
+	border: 3px solid #ffffff;
+}
+QPushButton:hover {
+	border-radius: 19px;
+	background-color: rgb(52, 202, 232);
+}
+QPushButton:pressed {
+	border-radius: 20px;
+	background-color: rgb(0, 222, 0);
+}
+QMainWindow {
 	background-color: rgb(228, 249, 255);
 }
 #pushButton, #pushButton_2, #pushButton_3 {
@@ -38,6 +53,7 @@
 	background-color: rgb(57, 219, 255);
 	font: 87 14pt &quot;Arial Black&quot;;
 	color: rgb(255, 255, 255);
+	border: None;
 }
 #pushButton:hover, #pushButton_2:hover, #pushButton_3:hover {
 	border-radius: 49px;
@@ -185,6 +201,7 @@ QTabBar::tab:left:only-one, QTabBar::tab:right:only-one {
 #pushButton_3 {
 	background-color: rgba(255, 0, 0, 200);
 	font: 87 20pt &quot;Arial Black&quot;;
+	border: None;
 }
 #pushButton_3:hover {
 	background-color: rgb(255, 0, 0);
@@ -196,10 +213,12 @@ QTabBar::tab:left:only-one, QTabBar::tab:right:only-one {
 	border-radius: 15px;
 	background-color: rgb(51, 177, 255);
 	color: rgb(255, 255, 255);
+	border: None;
 }
 #pushButton_4:hover {
 	background-color: rgb(52, 202, 232);
 	border-radius: 18px;
+	border: None;
 }
 #pushButton_4:pressed {
 	background-color: rgb(0, 222, 0);
@@ -214,6 +233,7 @@ QStatusBar {
 	background-color: rgb(57, 219, 255);
 	font: 87 12pt &quot;Arial Black&quot;;
 	color: rgb(255, 255, 255);
+	border: None;
 }
 #pushButton_5:hover {
 	border-radius: 9px;
@@ -796,8 +816,11 @@ p, li { white-space: pre-wrap; }
     </property>
     <property name="font">
      <font>
-      <family>Arial Black</family>
-      <pointsize>14</pointsize>
+      <family>Arial</family>
+      <pointsize>10</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">

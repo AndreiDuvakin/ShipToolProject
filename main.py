@@ -165,12 +165,12 @@ class HumansWindow(QMainWindow):
         list_widget_item.setSizeHint(QSize(25, 50))
         self.listWidget.addItem(list_widget_item)
         button = QPushButton('Новый человек')
-        self.select_button = button
         self.dict_but[button] = [self.new_id, 'Новый', 'человек', None, None, None, None, None]
         self.listWidget.setItemWidget(list_widget_item, button)
         self.open_human()
         self.new_human_mode = False
         button.clicked.connect(self.open_human)
+        self.select_button = button
 
     def check_window(self):
         if not self.new_human_mode:
