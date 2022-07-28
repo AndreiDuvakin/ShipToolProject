@@ -871,25 +871,6 @@ QTabBar::tab:left:only-one, QTabBar::tab:right:only-one {
        </item>
       </layout>
      </widget>
-     <widget class="QPushButton" name="pushButton_2">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>191</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Arial Black</family>
-        <pointsize>14</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Сохранить</string>
-      </property>
-     </widget>
     </widget>
     <widget class="QWidget" name="tab_7">
      <attribute name="title">
@@ -1013,6 +994,40 @@ p, li { white-space: pre-wrap; }
      </widget>
     </widget>
    </widget>
+   <widget class="QPushButton" name="pushButton_2">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>20</y>
+      <width>120</width>
+      <height>120</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial Black</family>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>../app_image/save.png</normaloff>../app_image/save.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>110</width>
+      <height>110</height>
+     </size>
+    </property>
+   </widget>
+   <zorder>pushButton_2</zorder>
+   <zorder>pushButton</zorder>
+   <zorder>lineEdit</zorder>
+   <zorder>tabWidget</zorder>
+   <zorder>tabWidget_2</zorder>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>

@@ -33,17 +33,17 @@
    <string notr="true">QMainWindow {
 	background-color: rgb(228, 249, 255);
 }
-#pushButton, #pushButton_2, #pushButton_3 {
+#pushButton, #pushButton_3 {
 	border-radius: 40px;
 	background-color: rgb(57, 219, 255);
 	font: 87 14pt &quot;Arial Black&quot;;
 	color: rgb(255, 255, 255);
 }
-#pushButton:hover, #pushButton_2:hover, #pushButton_3:hover {
+#pushButton:hover, #pushButton_3:hover {
 	border-radius: 49px;
 	background-color: rgb(52, 202, 232);
 }
-#pushButton:pressed, #pushButton_2:pressed {
+#pushButton:pressed {
 	border-radius: 55px;
 	background-color: rgb(48, 188, 216);
 }
@@ -204,6 +204,18 @@ QTabBar::tab:left:only-one, QTabBar::tab:right:only-one {
 #pushButton_4:pressed, #pushButton_5:pressed, #pushButton_6:pressed, #pushButton_7:pressed, #pushButton_8:pressed {
 	border-radius: 8px;
 	background-color: rgb(48, 188, 216);
+}
+#pushButton_2 {
+	border-radius: 15px;
+	background-color: rgb(51, 177, 255);
+	color: rgb(255, 255, 255);
+}
+#pushButton_2:hover {
+	background-color: rgb(52, 202, 232);
+	border-radius: 18px;
+}
+#pushButton_2:pressed {
+	background-color: rgb(0, 222, 0);
 }</string>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -700,6 +712,40 @@ p, li { white-space: pre-wrap; }
      </widget>
     </widget>
    </widget>
+   <widget class="QPushButton" name="pushButton_2">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>20</y>
+      <width>120</width>
+      <height>120</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial Black</family>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>../app_image/save.png</normaloff>../app_image/save.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>110</width>
+      <height>110</height>
+     </size>
+    </property>
+   </widget>
+   <zorder>pushButton_2</zorder>
+   <zorder>pushButton</zorder>
+   <zorder>lineEdit</zorder>
+   <zorder>listWidget</zorder>
+   <zorder>tabWidget</zorder>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>

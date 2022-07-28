@@ -219,6 +219,18 @@ QComboBox:hover {
 }
 #pushButton_7:pressed {
 	background-color: rgb(0, 222, 0);
+}
+#pushButton_8 {
+	border-radius: 15px;
+	background-color: rgb(51, 177, 255);
+	color: rgb(255, 255, 255);
+}
+#pushButton_8:hover {
+	background-color: rgb(52, 202, 232);
+	border-radius: 18px;
+}
+#pushButton_8:pressed {
+	background-color: rgb(0, 222, 0);
 }</string>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -940,6 +952,40 @@ p, li { white-space: pre-wrap; }
      </widget>
     </widget>
    </widget>
+   <widget class="QPushButton" name="pushButton_8">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>20</y>
+      <width>120</width>
+      <height>120</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial Black</family>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>../app_image/save.png</normaloff>../app_image/save.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>110</width>
+      <height>110</height>
+     </size>
+    </property>
+   </widget>
+   <zorder>pushButton_8</zorder>
+   <zorder>pushButton</zorder>
+   <zorder>lineEdit</zorder>
+   <zorder>listWidget</zorder>
+   <zorder>tabWidget</zorder>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
