@@ -49,11 +49,27 @@ class HumansWindow(QMainWindow):
         self.lineEdit_2.textChanged.connect(self.check_window)
         self.textEdit.textChanged.connect(self.check_window)
         self.textEdit_2.textChanged.connect(self.check_window)
+        self.lineEdit.textChanged.connect(self.find_human)
         self.dateEdit.dateChanged.connect(self.check_window)
         self.pushButton_3.clicked.connect(self.delete)
         self.pushButton_4.clicked.connect(self.save_data)
         self.pushButton_2.clicked.connect(self.new_icon)
         self.load_window()
+
+    def find_human(self):
+        global cursor
+        humans = cursor.execute(f'SELECT * from humans').fetchall()
+        if humans:
+            self.listWidget.clear()
+            list_buttons = list(map(lambda x: self.make_buttons(x, find_mode=True), humans))
+            for i in list_buttons:
+                if i:
+                    list_widget_item = QListWidgetItem()
+                    list_widget_item.setSizeHint(QSize(25, 50))
+                    if self.dict_but[i][4]:
+                        list_widget_item.setIcon(QIcon(self.dict_but[i][4]))
+                    self.listWidget.addItem(list_widget_item)
+                    self.listWidget.setItemWidget(list_widget_item, i)
 
     def delete_photo(self):
         global cursor
@@ -203,42 +219,61 @@ class HumansWindow(QMainWindow):
                 self.listWidget.addItem(list_widget_item)
                 self.listWidget.setItemWidget(list_widget_item, i)
 
-    def make_buttons(self, list_info):
-        button = QPushButton(f'{list_info[1]} {list_info[2]}')
-        self.dict_but[button] = list_info
-        button.clicked.connect(self.open_human)
-        return button
+    def make_buttons(self, list_info, find_mode=False):
+        if not find_mode:
+            button = QPushButton(f'{list_info[1]} {list_info[2]}')
+            self.dict_but[button] = list_info
+            button.clicked.connect(self.open_human)
+            return button
+        else:
+            find_text = self.lineEdit.text().lower().strip()
+            if find_text in ''.join(list(map(lambda x: x.lower().strip() if type(x) == str else '', list_info))):
+                button = QPushButton(f'{list_info[1]} {list_info[2]}')
+                self.dict_but[button] = list_info
+                button.clicked.connect(self.open_human)
+                return button
 
     def open_human(self):
-        self.pushButton_5.setVisible(False)
-        self.label_4.setVisible(True)
-        self.photo = None
-        if self.new_human_mode:
-            list_info = [self.new_id, 'Новый', 'человек', None, None, None, None, None]
-            self.select_button = self.sender()
+        if self.select_button != self.sender():
+            self.pushButton_5.setVisible(False)
+            self.label_4.setVisible(True)
+            self.photo = None
+            if self.new_human_mode:
+                list_info = [self.new_id, 'Новый', 'человек', None, None, None, None, None]
+                self.select_button = self.sender()
+            else:
+                self.pushButton.setVisible(True)
+                self.pushButton_4.setVisible(False)
+                self.select_button = self.sender()
+                list_info = self.dict_but[self.select_button]
+            if list_info[4]:
+                self.pushButton_2.setIcon(QIcon(list_info[4]))
+                self.photo = list_info[4]
+                self.pushButton_5.setVisible(True)
+                self.label_4.setVisible(False)
+            else:
+                self.pushButton_2.setIcon(QIcon('app_image/no_photo.png'))
+            self.tabWidget.setVisible(True)
+            self.lineEdit_2.setText(f'{list_info[1] if list_info[1] else ""}'
+                                    f' {list_info[2] if list_info[2] else ""}'
+                                    f' {list_info[3] if list_info[3] else ""}')
+            self.textEdit_2.setText(f'{list_info[5] if list_info[5] else ""}')
+            self.textEdit.setText(f'{list_info[6] if list_info[6] else ""}')
+            if list_info[7]:
+                self.dateEdit.setDate(QDate(*map(int, list_info[7].split('-'))))
+            else:
+                self.dateEdit.setDate(QDate(datetime.date.today()))
+            self.label_7.setText(str(list_info[0]))
         else:
-            self.pushButton.setVisible(True)
-            self.pushButton_4.setVisible(False)
-            self.select_button = self.sender()
-            list_info = self.dict_but[self.select_button]
-        if list_info[4]:
-            self.pushButton_2.setIcon(QIcon(list_info[4]))
-            self.photo = list_info[4]
-            self.pushButton_5.setVisible(True)
-            self.label_4.setVisible(False)
-        else:
-            self.pushButton_2.setIcon(QIcon('app_image/no_photo.png'))
-        self.tabWidget.setVisible(True)
-        self.lineEdit_2.setText(f'{list_info[1] if list_info[1] else ""}'
-                                f' {list_info[2] if list_info[2] else ""}'
-                                f' {list_info[3] if list_info[3] else ""}')
-        self.textEdit_2.setText(f'{list_info[5] if list_info[5] else ""}')
-        self.textEdit.setText(f'{list_info[6] if list_info[6] else ""}')
-        if list_info[7]:
-            self.dateEdit.setDate(QDate(*map(int, list_info[7].split('-'))))
-        else:
-            self.dateEdit.setDate(QDate(datetime.date.today()))
-        self.label_7.setText(str(list_info[0]))
+            self.tabWidget.setVisible(False)
+            self.new_human_mode = True
+            self.lineEdit_2.setText('')
+            self.textEdit_2.setText('')
+            self.textEdit.setText('')
+            self.dateEdit.setDate(datetime.date.today())
+            self.label_7.setText('')
+            self.new_human_mode = False
+            self.load_window()
 
 
 def except_hook(cls, exception, traceback):
