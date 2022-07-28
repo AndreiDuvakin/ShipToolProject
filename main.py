@@ -117,6 +117,7 @@ class HumansWindow(QMainWindow):
             cursor.execute(f'UPDATE humans SET photo'
                            f' = \'{f"data/humans/{str(self.dict_but[self.select_button][0])}.png"}\''
                            f' WHERE id = {str(self.dict_but[self.select_button][0])}')
+            connect.commit()
             self.load_window()
         except AttributeError:
             pass
