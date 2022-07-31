@@ -48,6 +48,7 @@ class HumansWindow(QMainWindow):
         self.pushButton.clicked.connect(self.add_human)
         self.select_button = None
         self.dict_but = {}
+        self.dict_peirings_but = {}
         self.new_human_mode = False
         self.photo = None
         self.pushButton_5.clicked.connect(self.delete_photo)
@@ -136,6 +137,7 @@ class HumansWindow(QMainWindow):
         self.lineEdit_2.setText('')
         self.textEdit_2.setText('')
         self.textEdit.setText('')
+        self.listWidget_3.clear()
         self.dateEdit.setDate(datetime.date.today())
         self.label_7.setText('')
         file = cursor.execute(f'SELECT photo from humans'
@@ -157,6 +159,7 @@ class HumansWindow(QMainWindow):
         self.lineEdit_2.setText('Новый человек')
         self.textEdit_2.setText('')
         self.textEdit.setText('')
+        self.listWidget_3.clear()
         self.dateEdit.setDate(datetime.date.today())
         self.label_7.setText('')
         cursor.execute(f'INSERT INTO humans(name, surname, patronymic, photo, dating_history,'
@@ -229,11 +232,35 @@ class HumansWindow(QMainWindow):
                 button.clicked.connect(self.open_human)
                 return button
 
+    def check_selection_data(self, list_info, not_checked_peirings):
+        if list_info[0] in loads(not_checked_peirings[2]):
+            return not_checked_peirings
+
+    def make_peirings_buttons(self, list_info):
+        button = QPushButton(f'{list_info[1]}')
+        self.dict_peirings_but[button] = list_info
+        button.clicked.connect(self.open_peirings)
+        list_widget_item = QListWidgetItem()
+        list_widget_item.setSizeHint(QSize(25, 50))
+        if list_info[3]:
+            list_widget_item.setIcon(QIcon(list_info[3]))
+        self.listWidget_3.addItem(list_widget_item)
+        self.listWidget_3.setItemWidget(list_widget_item, button)
+
+    def open_peirings(self):
+        peiring_list = self.dict_peirings_but[self.sender()]
+        self.peiring_window = PeiringsWindow()
+        self.peiring_window.new_peiring_mode = True
+        self.peiring_window.open_peiring(manage_mode=peiring_list)
+        self.peiring_window.new_peiring_mode = False
+        self.peiring_window.show()
+
     def open_human(self, manage_mode=False):
         if self.select_button != self.sender():
             self.pushButton_5.setVisible(False)
             self.label_4.setVisible(True)
             self.photo = None
+            self.listWidget_3.clear()
             if manage_mode:
                 list_info = manage_mode
             else:
@@ -254,6 +281,11 @@ class HumansWindow(QMainWindow):
                 self.pushButton_5.setVisible(False)
                 self.label_4.setVisible(True)
                 self.pushButton_2.setIcon(QIcon('app_image/no_photo.png'))
+            peirings = cursor.execute(f'SELECT * from peirings').fetchall()
+            if peirings:
+                list_peirings = list(filter(None, map(lambda x: self.check_selection_data(list_info, x), peirings)))
+                if list_peirings:
+                    list(map(lambda x: self.make_peirings_buttons(x), list_peirings))
             self.tabWidget.setVisible(True)
             self.lineEdit_2.setText(f'{list_info[1] if list_info[1] else ""}'
                                     f' {list_info[2] if list_info[2] else ""}'
@@ -271,6 +303,7 @@ class HumansWindow(QMainWindow):
             self.lineEdit_2.setText('')
             self.textEdit_2.setText('')
             self.textEdit.setText('')
+            self.listWidget_3.clear()
             self.dateEdit.setDate(datetime.date.today())
             self.label_7.setText('')
             self.new_human_mode = False
@@ -460,11 +493,11 @@ class PeiringsWindow(QMainWindow):
                         str(self.dateEdit_2.date().toString('yyyy-M-d')), datetime.date.today(),
                         self.checkBox.isChecked()))
         connect.commit()
-        self.pushButton.setVisible(True)
-        self.pushButton_8.setVisible(False)
         self.open_peiring(manage_mode=cursor.execute(
             f'SELECT * from peirings'
             f' WHERE id = {str(self.dict_but[self.select_button][0])}').fetchall()[0])
+        self.pushButton.setVisible(True)
+        self.pushButton_8.setVisible(False)
 
     def check_window(self):
         if not self.new_peiring_mode:
