@@ -21,10 +21,38 @@ class MainWindow(QMainWindow):
         self.initUI()
 
     def initUI(self):
+        self.dict_peirings_but = {}
         # self.pushButton_2.clicked.connect(self.open_report)
         self.pushButton.clicked.connect(self.open_peiring)
         self.pushButton_3.clicked.connect(self.open_human)
         # self.pushButton_6.clicked.connect(self.open_stories)
+        self.load_window()
+
+    def open_select_peiring(self):
+        peiring_list = self.dict_peirings_but[self.sender()]
+        self.peiring_window = PeiringsWindow()
+        self.peiring_window.new_peiring_mode = True
+        self.peiring_window.select_button = self.peiring_window.dict_but[
+            cursor.execute(f'SELECT * from peirings WHERE id = {str(peiring_list[0])}').fetchall()[0]]
+        self.peiring_window.open_peiring(manage_mode=peiring_list)
+        self.peiring_window.new_peiring_mode = False
+        self.peiring_window.show()
+
+    def make_peirings_buttons(self, list_info):
+        button = QPushButton(f'{list_info[1] if list_info[1] else ""}')
+        self.dict_peirings_but[button] = list_info
+        button.clicked.connect(self.open_select_peiring)
+        list_widget_item = QListWidgetItem()
+        list_widget_item.setSizeHint(QSize(25, 50))
+        if list_info[3]:
+            list_widget_item.setIcon(QIcon(list_info[3]))
+        self.listWidget.addItem(list_widget_item)
+        self.listWidget.setItemWidget(list_widget_item, button)
+
+    def load_window(self):
+        self.listWidget.clear()
+        self.listWidget_2.clear()
+        list(map(lambda x: self.make_peirings_buttons(x), cursor.execute('SELECT * from peirings').fetchall()))
 
     def open_peiring(self):
         self.peirings = PeiringsWindow()
@@ -80,7 +108,7 @@ class HumansWindow(QMainWindow):
     def delete_photo(self):
         global cursor
         global connect
-        os.remove(self.dict_but[self.select_button][4])
+        os.remove(self.photo)
         cursor.execute(f'UPDATE humans SET photo = ? WHERE id = {self.dict_but[self.select_button][0]}', (None,))
         connect.commit()
         self.pushButton_2.setIcon(QIcon('app_image/no_photo.png'))
@@ -222,6 +250,7 @@ class HumansWindow(QMainWindow):
         if not find_mode:
             button = QPushButton(f'{list_info[1]} {list_info[2]}')
             self.dict_but[button] = list_info
+            self.dict_but[list_info] = button
             button.clicked.connect(self.open_human)
             return button
         else:
@@ -239,6 +268,7 @@ class HumansWindow(QMainWindow):
     def make_peirings_buttons(self, list_info):
         button = QPushButton(f'{list_info[1]}')
         self.dict_peirings_but[button] = list_info
+        self.dict_peirings_but[list_info] = button
         button.clicked.connect(self.open_peirings)
         list_widget_item = QListWidgetItem()
         list_widget_item.setSizeHint(QSize(25, 50))
@@ -251,6 +281,8 @@ class HumansWindow(QMainWindow):
         peiring_list = self.dict_peirings_but[self.sender()]
         self.peiring_window = PeiringsWindow()
         self.peiring_window.new_peiring_mode = True
+        self.peiring_window.select_button = self.peiring_window.dict_but[
+            cursor.execute(f'SELECT * from peirings WHERE id = {str(peiring_list[0])}').fetchall()[0]]
         self.peiring_window.open_peiring(manage_mode=peiring_list)
         self.peiring_window.new_peiring_mode = False
         self.peiring_window.show()
@@ -325,7 +357,7 @@ class PeiringsWindow(QMainWindow):
         self.pushButton_7.setVisible(False)
         self.select_button = None
         self.dict_but = {}
-        self.mini_dict_but = {}
+        self.human_dict_but = {}
         self.new_peiring_mode = False
         self.photo = None
         self.status = None
@@ -353,7 +385,7 @@ class PeiringsWindow(QMainWindow):
     def delete_photo(self):
         global cursor
         global connect
-        os.remove(self.dict_but[self.select_button][3])
+        os.remove(self.photo)
         cursor.execute(f'UPDATE peirings SET photo = ? WHERE id = {self.dict_but[self.select_button][0]}', (None,))
         connect.commit()
         self.pushButton_2.setIcon(QIcon('app_image/no_photo.png'))
@@ -442,9 +474,11 @@ class PeiringsWindow(QMainWindow):
         self.save_data()
 
     def open_human(self):
-        human_list = self.mini_dict_but[self.sender()]
+        human_list = self.human_dict_but[self.sender()]
         self.human_window = HumansWindow()
         self.human_window.new_human_mode = True
+        self.human_window.select_button = self.human_window.dict_but[
+            cursor.execute(f'SELECT * from humans WHERE id = {str(human_list[0])}').fetchall()[0]]
         self.human_window.open_human(manage_mode=human_list)
         self.human_window.new_human_mode = False
         self.human_window.show()
@@ -522,6 +556,7 @@ class PeiringsWindow(QMainWindow):
         if not find_mode:
             button = QPushButton(f'{list_info[1] if list_info[1] else ""}')
             self.dict_but[button] = list_info
+            self.dict_but[list_info] = button
             button.clicked.connect(self.open_peiring)
             list_widget_item = QListWidgetItem()
             list_widget_item.setSizeHint(QSize(25, 50))
@@ -544,7 +579,8 @@ class PeiringsWindow(QMainWindow):
 
     def make_mini_buttons(self, list_info):
         button = QPushButton(f'{list_info[1] if list_info[1] else ""} {list_info[2] if list_info[2] else ""}')
-        self.mini_dict_but[button] = list_info
+        self.human_dict_but[button] = list_info
+        self.human_dict_but[list_info] = button
         button.clicked.connect(self.open_human)
         list_widget_item = QListWidgetItem()
         list_widget_item.setSizeHint(QSize(25, 50))

@@ -40,7 +40,22 @@
    <enum>Qt::LeftToRight</enum>
   </property>
   <property name="styleSheet">
-   <string notr="true">QMainWindow {
+   <string notr="true">QPushButton {
+	background-color: rgb(51, 177, 255);
+	border-radius: 17px;
+	font: 10pt &quot;Arial&quot;;
+	color: rgb(255, 255, 255);
+	border: 3px solid #ffffff;
+}
+QPushButton:hover {
+	border-radius: 19px;
+	background-color: rgb(52, 202, 232);
+}
+QPushButton:pressed {
+	border-radius: 20px;
+	background-color: rgb(0, 222, 0);
+}
+QMainWindow {
 	background-color: rgb(228, 249, 255);
 }
 #pushButton, #pushButton_2, #pushButton_3, #pushButton_4, #pushButton_5, #pushButton_6, #pushButton_7 {
@@ -48,6 +63,7 @@
 	background-color: rgb(57, 219, 255);
 	font: 87 14pt &quot;Arial Black&quot;;
 	color: rgb(255, 255, 255);
+	border: None;
 }
 #pushButton:hover, #pushButton_2:hover, #pushButton_3:hover, #pushButton_4:hover, #pushButton_5:hover, #pushButton_6:hover  {
 	border-radius: 49px;
@@ -75,6 +91,7 @@ QListWidget {
 }
 #pushButton_6, #pushButton_5 {
 	border-radius: 30px;
+	border: None;
 }
 #pushButton_6:hover, #pushButton_5:hover {
 	border-radius: 35px;
@@ -84,6 +101,7 @@ QListWidget {
 }
 #pushButton_7 {
 	border-radius: 49px;
+	border: None;
 }
 #pushButton_7:hover {
 	background-color: rgb(52, 202, 232);
